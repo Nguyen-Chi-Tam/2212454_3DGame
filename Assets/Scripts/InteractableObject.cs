@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
 {
+    public bool playerInRange;
     public string ItemName;
 
     public string GetItemName()
@@ -10,7 +11,12 @@ public class InteractableObject : MonoBehaviour
     }
     public void Pickup()
     {
-        Debug.Log("Item Added to Inventory: " + ItemName);
-        Destroy(gameObject);
+        if (!InventorySystem.Instance.CheckFull())
+        {
+            InventorySystem.Instance.AddToInventory(ItemName);
+            Destroy(gameObject);
+        } else{
+            Debug.Log("Inventory is full");
+        }
     }
 }
