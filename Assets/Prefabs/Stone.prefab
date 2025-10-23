@@ -125,4 +125,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   playerInRange: 0
-  ItemName: "\u0110\xE1 cu\u1ED9i"
+  ItemName: Stone

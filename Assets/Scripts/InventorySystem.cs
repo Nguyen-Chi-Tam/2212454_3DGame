@@ -59,17 +59,18 @@ public class InventorySystem : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.I) && isOpen)
         {
             inventoryScreenUI.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
+            if (!Crafting.Instance.isOpen)
+                Cursor.lockState = CursorLockMode.Locked;
             isOpen = false;
         }
     }
 
     public void AddToInventory(string item)
     {
-            whatSlotToEquip = FindNextEmptySlot();
-            itemToAdd = (GameObject)Instantiate(Resources.Load<GameObject>(item), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
-            itemToAdd.transform.SetParent(whatSlotToEquip.transform);
-            itemList.Add(item);
+        whatSlotToEquip = FindNextEmptySlot();
+        itemToAdd = (GameObject)Instantiate(Resources.Load<GameObject>(item), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
+        itemToAdd.transform.SetParent(whatSlotToEquip.transform);
+        itemList.Add(item);
     }
 
     private GameObject FindNextEmptySlot()
@@ -92,19 +93,31 @@ public class InventorySystem : MonoBehaviour
         else return false;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void RemoveItem(string itemToRemove, int amount)
+    {
+        int counter = amount;
+        for (var i = slotList.Count - 1; i >= 0; i--)
+            if (slotList[i].transform.childCount > 0)
+            {
+                if (slotList[i].transform.GetChild(0).name==itemToRemove+"(Clone)"&&counter!=0)
+                {
+                    Destroy(slotList[i].transform.GetChild(0).gameObject);
+                    counter -= 1;
+                }
+            }
+    }
+    public void RecalculateList()
+    {
+        itemList.Clear();
+        foreach(GameObject slot in slotList)
+        {
+            if (slot.transform.childCount>0)
+            {
+                string name = slot.transform.GetChild(0).name;
+                string str2 = "(Clone)";
+                string result = name.Replace(str2, "");
+                itemList.Add(result);
+            }
+        }
+    }
 }
