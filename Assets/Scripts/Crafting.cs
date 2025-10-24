@@ -68,7 +68,6 @@ public class Crafting : MonoBehaviour
             InventorySystem.Instance.RemoveItem(blueprint.Req1, blueprint.Req1Amount);
             InventorySystem.Instance.RemoveItem(blueprint.Req2, blueprint.Req2Amount);
         }
-        InventorySystem.Instance.RecalculateList();
         StartCoroutine(calculate());
         RefreshNeededItems();
     }
@@ -91,20 +90,20 @@ public class Crafting : MonoBehaviour
 
     public IEnumerator calculate()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.025f);
         InventorySystem.Instance.RecalculateList();
         
     }
     // Update is called once per frame
     void Update()
     {
-
+        RefreshNeededItems();
         if (Input.GetKeyDown(KeyCode.C) && !isOpen)
         {
             craftingscreenUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             isOpen = true;
-            RefreshNeededItems();
+            
         }
         else if (Input.GetKeyDown(KeyCode.C) && isOpen)
         {
