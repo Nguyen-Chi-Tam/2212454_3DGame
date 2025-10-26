@@ -1,7 +1,5 @@
 using UnityEngine;
 
-// Note: This is a plain data container, not a MonoBehaviour.
-// Creating MonoBehaviours with `new` is not allowed in Unity and will throw at runtime.
 [System.Serializable]
 public class Blueprints
 {

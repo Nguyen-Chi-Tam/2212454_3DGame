@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventorySystem : MonoBehaviour
 {
@@ -14,6 +15,27 @@ public class InventorySystem : MonoBehaviour
     public List<string> itemList = new List<string>();
     private GameObject itemToAdd, whatSlotToEquip;
     public bool isOpen;
+    public GameObject pickupAlert;
+    public Text pickupName;
+    public Image pickupImage;
+    private Coroutine pickupHideRoutine;
+    private Coroutine recalcRoutine;
+    void TriggerPopup(string itemName, Sprite itemSprite)
+    {
+        pickupAlert.SetActive(true);
+        pickupName.text = itemName+" added";
+        pickupImage.sprite = itemSprite;
+        if (pickupHideRoutine != null)
+            StopCoroutine(pickupHideRoutine);
+        pickupHideRoutine = StartCoroutine(HidePickupAfterDelay(5f));
+    }
+    private IEnumerator HidePickupAfterDelay(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        if (pickupAlert != null)
+            pickupAlert.SetActive(false);
+        pickupHideRoutine = null;
+    }
 
     private void Awake()
     {
@@ -70,7 +92,9 @@ public class InventorySystem : MonoBehaviour
         whatSlotToEquip = FindNextEmptySlot();
         itemToAdd = (GameObject)Instantiate(Resources.Load<GameObject>(item), whatSlotToEquip.transform.position, whatSlotToEquip.transform.rotation);
         itemToAdd.transform.SetParent(whatSlotToEquip.transform);
-        itemList.Add(item);
+    itemList.Add(item);
+    TriggerPopup(item, itemToAdd.GetComponent<Image>().sprite);
+    ScheduleRecalculate();
     }
 
     private GameObject FindNextEmptySlot()
@@ -99,19 +123,21 @@ public class InventorySystem : MonoBehaviour
         for (var i = slotList.Count - 1; i >= 0; i--)
             if (slotList[i].transform.childCount > 0)
             {
-                if (slotList[i].transform.GetChild(0).name==itemToRemove+"(Clone)"&&counter!=0)
+                if (slotList[i].transform.GetChild(0).name == itemToRemove + "(Clone)" && counter != 0)
                 {
                     Destroy(slotList[i].transform.GetChild(0).gameObject);
                     counter -= 1;
                 }
             }
+        ScheduleRecalculate();
+
     }
     public void RecalculateList()
     {
         itemList.Clear();
-        foreach(GameObject slot in slotList)
+        foreach (GameObject slot in slotList)
         {
-            if (slot.transform.childCount>0)
+            if (slot.transform.childCount > 0)
             {
                 string name = slot.transform.GetChild(0).name;
                 string str2 = "(Clone)";
@@ -119,5 +145,22 @@ public class InventorySystem : MonoBehaviour
                 itemList.Add(result);
             }
         }
+    }
+
+    // Ensures we recalc after Unity has processed Destroy/Instantiate at end of frame
+    private void ScheduleRecalculate()
+    {
+        if (recalcRoutine != null)
+            StopCoroutine(recalcRoutine);
+        recalcRoutine = StartCoroutine(RecalculateAfterFrame());
+    }
+    private IEnumerator RecalculateAfterFrame()
+    {
+        // Wait one frame so destroyed/instantiated inventory item objects are reflected in hierarchy
+        yield return null;
+        RecalculateList();
+        if (Crafting.Instance != null)
+            Crafting.Instance.RefreshNeededItems();
+        recalcRoutine = null;
     }
 }

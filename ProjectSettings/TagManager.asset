@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Slot
   - Selectable_Tree
+  - Pickupable
   layers:
   - Default
   - TransparentFX

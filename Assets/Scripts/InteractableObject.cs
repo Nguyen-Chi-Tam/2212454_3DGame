@@ -11,12 +11,16 @@ public class InteractableObject : MonoBehaviour
     }
     public void Pickup()
     {
+        // Block pickup when any UI screen is open
+        if (InventorySystem.Instance.isOpen || Crafting.Instance.isOpen)
+            return;
+
         if (!InventorySystem.Instance.CheckFull())
         {
             InventorySystem.Instance.AddToInventory(ItemName);
             Destroy(gameObject);
         } else{
-            Debug.Log("Inventory is full");
+            // Inventory full: silently ignore pickup
         }
     }
 }
