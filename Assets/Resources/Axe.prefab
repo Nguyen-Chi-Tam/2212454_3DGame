@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1941851757771680654}
   - component: {fileID: 1886486319434210092}
   - component: {fileID: 8305498601490920836}
+  - component: {fileID: 8922357504851916784}
   m_Layer: 5
   m_Name: Axe
   m_TagString: Untagged
@@ -102,3 +103,23 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &8922357504851916784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7789986715735103657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e9b4c4a39d4d948850e1b322f1819d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
+  isTrashable: 0
+  thisName: Axe
+  thisDescription: A sharp tool
+  thisFunctionality: Chop down trees
+  isConsumable: 0
+  healthEffect: 0
+  caloriesEffect: 0
+  hydrationEffect: 0

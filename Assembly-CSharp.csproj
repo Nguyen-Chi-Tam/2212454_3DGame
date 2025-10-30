@@ -51,6 +51,7 @@
     <Compile Include="Assets\Scripts\AI_Movement.cs" />
     <Compile Include="Assets\Scripts\Crafting.cs" />
     <Compile Include="Assets\Scripts\Blueprints.cs" />
+    <Compile Include="Assets\Scripts\TrashSlot.cs" />
     <Compile Include="Assets\Scripts\SelectionManager.cs" />
     <Compile Include="Assets\Scripts\CaloriesBar.cs" />
     <Compile Include="Assets\Scripts\HydrationBar.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Assets\Rabbits\Demo\Scripts\AnimatorParamatersChange.cs" />
     <Compile Include="Assets\Scripts\InventorySystem.cs" />
     <Compile Include="Assets\FantasyEnvironments\Environments\Town\Scripts\Door.cs" />
+    <Compile Include="Assets\Scripts\InventoryItem.cs" />
     <Compile Include="Assets\Scripts\PlayerState.cs" />
     <Compile Include="Assets\Scripts\DragDrop.cs" />
     <Compile Include="Assets\Scripts\MouseMovement.cs" />

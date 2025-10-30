@@ -51,4 +51,19 @@ public class PlayerState : MonoBehaviour
             distanceTraveled = 0;
         }
     }
+    public void setHealth(float health)
+    {
+        currentHealth = health;
+    }
+
+    public void setCalories(float calories)
+    {
+        currentCalories = calories;
+    }
+
+    public void setHydration(float hydration)
+    {
+        currentHydration = hydration;
+    }
+
 }
